@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PENGUMUMAN KELULUSAN MI BATULAWANG</title>
+    <style>
+        /* CSS: Bagian Desain */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #1a5276;
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 600px;
+            margin: -40px auto 40px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 { margin-bottom: 5px; font-size: 24px; }
+        p.subtitle { margin-top: 0; opacity: 0.9; font-size: 14px; }
+
+        .input-group {
+            margin: 25px 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #1a5276;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: #1e8449; }
+
+        /* Hasil Pencarian */
+        #result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #27ae60;
+            background-color: #ebf9f1;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            background-color: #27ae60;
+            color: white;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>PENGUMUMAN KELULUSAN</h1>
+        <p class="subtitle">MI BATULAWANG - TAHUN PELAJARAN 2025/2026</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h3>Cek Status Kelulusan</h3>
+            <p>Silakan masukkan NISN siswa untuk melihat hasil kelulusan.</p>
+            
+            <div class="input-group">
+                <input type="text" id="nisnInput" placeholder="Masukkan 10 Digit NISN...">
+                <button onclick="prosesCek()">LIHAT HASIL</button>
+            </div>
+
+            <!-- Box Hasil Kelulusan -->
+            <div id="result">
+                <p style="margin-bottom: 5px; color: #777;">Nama Siswa:</p>
+                <h2 id="displayNama" style="margin-top: 0;">-</h2>
+                <hr style="border: 0; border-top: 1px solid #ccc;">
+                <p>Dinyatakan:</p>
+                <div class="status-badge" id="displayStatus">LULUS</div>
+                <p id="pesanTambahan" style="font-size: 14px; margin-top: 15px; color: #555;"></p>
+            </div>
+        </div>
+
+        <footer>
+            &copy; 2026 IT Support MI Batulawang
+        </footer>
+    </div>
+
+    <script>
+        /* DATABASE SISWA (Ganti/Tambah Data di Sini) */
+        const databaseSiswa = [
+            { nisn: "0123456701", nama: "ADI SAPUTRA", status: "LULUS" },
+            { nisn: "0123456702", nama: "BELLA KUSUMA", status: "LULUS" },
+            { nisn: "0123456703", nama: "CITRA LESTARI", status: "LULUS" },
+            { nisn: "0123456704", nama: "DEDI KURNIAWAN", status: "LULUS" },
+            { nisn: "0123456705", nama: "EKA WAHYUNI", status: "LULUS" }
+        ];
+
+        function prosesCek() {
+            const input = document.getElementById('nisnInput').value.trim();
+            const resultBox = document.getElementById('result');
+            const displayNama = document.getElementById('displayNama');
+            const displayStatus = document.getElementById('displayStatus');
+            const pesan = document.getElementById('pesanTambahan');
+
+            // Cari data di database
+            const siswa = databaseSiswa.find(s => s.nisn === input);
+
+            if (siswa) {
+                // Jika ketemu
+                resultBox.style.display = "block";
+                displayNama.innerText = siswa.nama;
+                displayStatus.innerText = siswa.status;
+                
+                if(siswa.status === "LULUS") {
+                    displayStatus.style.backgroundColor = "#27ae60";
+                    pesan.innerText = "Selamat atas keberhasilanmu! Teruslah belajar untuk meraih cita-cita.";
+                } else {
+                    displayStatus.style.backgroundColor = "#e74c3c";
+                    pesan.innerText = "Jangan berkecil hati, tetap semangat belajar.";
+                }
+            } else {
+                // Jika tidak ketemu
+                alert("Data NISN tidak ditemukan. Pastikan nomor yang Anda masukkan benar.");
+                resultBox.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
